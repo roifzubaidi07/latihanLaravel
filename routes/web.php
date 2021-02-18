@@ -17,7 +17,11 @@ use App\Http\Controllers\StudentController;
 
 Route::get('/', [PageController::class, 'index']);
 Route::get('/about', [PageController::class, 'about']);
+
 Route::get('/mahasiswa', [StudentController::class, 'index']);
+Route::get('/mahasiswa/{student}/ubah', [StudentController::class, 'edit']);
+Route::delete('/{student}/mahasiswa', [StudentController::class, 'destroy']);
+Route::put('/{student}/mahasiswa', [StudentController::class, 'update']);
 Route::post('/mahasiswa', [StudentController::class, 'store']);
 Route::get('/mahasiswa/tambah', [StudentController::class, 'create']);
 Route::get('/mahasiswa/{student}', [StudentController::class, 'show']);

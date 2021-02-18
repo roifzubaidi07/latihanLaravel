@@ -6,6 +6,11 @@
 <div class="row">
     <h1>Daftar Mahasiswa!</h1>
     <div class="col-6">
+        @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+        @endif
         <a href="mahasiswa/tambah" class="btn btn-primary">Tambah Mahasiswa</a>
         <ul class="list-group mt-2">
             @foreach($student as $row)

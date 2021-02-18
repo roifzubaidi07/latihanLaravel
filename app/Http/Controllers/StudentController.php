@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use PHPUnit\Framework\MockObject\Builder\Stub;
 
 class StudentController extends Controller
 {
@@ -36,12 +37,14 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $student = new Student;
-        $student->nama = $request->nama;
-        $student->nim = $request->nim;
-        $student->jurusan = $request->jurusan;
-        $student->save();
-        return view('mahasiswa.index', compact('student'));
+
+        $request->validate([
+            'nama' => 'required',
+            'nim' => 'required'
+        ]);
+        Student::create($request->all());
+
+        return redirect('mahasiswa')->with('status', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -63,7 +66,7 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        //
+        return view('mahasiswa.ubah', compact('student'));
     }
 
     /**
@@ -75,7 +78,14 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        //
+
+        $student->nama = $request->nama;
+        $student->nim = $request->nim;
+        $student->email = $request->email;
+        $student->jurusan = $request->jurusan;
+        $student->save();
+
+        return redirect('mahasiswa')->with('status', 'Data Berhasil Diupdate!');
     }
 
     /**
@@ -86,6 +96,8 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        //
+        Student::destroy($student->id);
+
+        return redirect('mahasiswa')->with('status', 'Data Berhasil Dihapus!');
     }
 }
